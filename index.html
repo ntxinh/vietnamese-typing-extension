@@ -1,0 +1,16 @@
+
+<script type="text/javascript" src="vietuni.js"></script>
+
+<input type="text" id="full_name">
+<br>
+<br>
+<br>
+<textarea name="description" rows="10" id="description"></textarea>
+
+<script type="text/javascript">
+var vUni = new vietUni();
+// To enable VN-typing for textbox 'full_name' & textarea 'description'
+vUni.initTyper(document.getElementById("full_name"));
+vUni.initTyper(document.getElementById("description"));
+// All of inputs else (ex: textbox 'email') are not registered VN-typing
+</script>
