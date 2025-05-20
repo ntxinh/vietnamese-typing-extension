@@ -1,18 +1,41 @@
 let isVietUniEnabled = false;
+let currentMethod = 'telex'; // Default method
 let lastCtrlPress = 0;
 const DOUBLE_PRESS_THRESHOLD = 300; // 300ms for double press
 let vUni = null;
 const initializedElements = new Set();
 
-// Initialize VietUni with Telex method
+function convertStringMethodToIntMethod(typingMethod) {
+  switch (typingMethod) {
+    case 'off':
+      return 0;
+    case 'telex':
+      return 1;
+    case 'vni':
+      return 2;
+    case 'viqr':
+      return 3;
+    case 'auto':
+      return 4;
+    default:
+      break;
+  }
+}
+
+// Initialize VietUni with the current method
 function initializeVietUni() {
   if (!vUni) {
     try {
       // vUni.setMethod(int) (0=OFF, 1=TELEX, 2=VNI, 3=VIQR, 4=AUTO).
-      vUni = new vietUni(1); // Create VietUni instance
-      // vUni.setMethod('telex'); // Set Telex method
+      vUni = new vietUni(convertStringMethodToIntMethod(currentMethod)); // Create VietUni instance
     } catch (e) {
       console.error('Failed to initialize VietUni:', e);
+    }
+  } else {
+    try {
+      vUni.setMethod(convertStringMethodToIntMethod(currentMethod)); // Update method if VietUni exists
+    } catch (e) {
+      console.error('Failed to set VietUni method:', e);
     }
   }
 }
@@ -21,7 +44,7 @@ function initializeVietUni() {
 function enableVietUniTyping() {
   initializeVietUni();
   if (!vUni) return; // Skip if VietUni failed to initialize
-  vUni.setMethod(1);
+  vUni.setMethod(convertStringMethodToIntMethod(currentMethod));
   const elements = document.querySelectorAll('input[type="text"], textarea');
   elements.forEach((element) => {
     if (!initializedElements.has(element)) {
@@ -34,12 +57,12 @@ function enableVietUniTyping() {
     }
   });
   isVietUniEnabled = true;
-  console.log('VietUni typing enabled');
+  console.log(`VietUni typing enabled with method: ${currentMethod}`);
 }
 
 // Disable Vietnamese typing
 function disableVietUniTyping() {
-  vUni.setMethod(0);
+  vUni.setMethod(convertStringMethodToIntMethod('off'));
   // initializedElements.forEach((element) => {
   //   try {
   //     // Assume VietUni has removeTyper; if not, clear by reinitializing
@@ -65,6 +88,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     } else {
       disableVietUniTyping();
     }
+  } else if (message.action === 'setTypingMethod') {
+    currentMethod = message.method;
+    if (isVietUniEnabled) {
+      // Reinitialize VietUni with new method
+      // disableVietUniTyping();
+      initializeVietUni();
+      // enableVietUniTyping();
+    }
+    console.log(`Typing method set to: ${currentMethod}`);
   }
 });
 
@@ -91,8 +123,12 @@ window.addEventListener('load', () => {
       console.error('Failed to get VietUni state:', chrome.runtime.lastError);
       return;
     }
-    if (response && response.enabled) {
-      enableVietUniTyping();
+    if (response) {
+      isVietUniEnabled = response.enabled || false;
+      currentMethod = response.method || 'telex';
+      if (isVietUniEnabled) {
+        enableVietUniTyping();
+      }
     }
   });
 });

@@ -1,6 +1,7 @@
 console.log('Background script loaded');
 
 let isVietUniEnabled = false;
+let currentMethod = 'telex';
 
 async function updateIcon(prefs) {
   try {
@@ -16,9 +17,10 @@ async function updateIcon(prefs) {
   }
 }
 
-// Load initial state from storage
-chrome.storage.local.get(['isVietUniEnabled'], (result) => {
+// Load initial state and method from storage
+chrome.storage.local.get(['isVietUniEnabled', 'currentMethod'], (result) => {
   isVietUniEnabled = result.isVietUniEnabled || false;
+  currentMethod = result.currentMethod || 'telex';
   updateIcon({ onOff: isVietUniEnabled ? 1 : 0 });
 });
 
@@ -26,7 +28,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'toggleVietUni') {
     isVietUniEnabled = !isVietUniEnabled;
     updateIcon({ onOff: isVietUniEnabled ? 1 : 0 });
-    // Save state to persist across service worker restarts
     chrome.storage.local.set({ isVietUniEnabled }, () => {
       // Broadcast toggle state to all tabs
       chrome.tabs.query({}, (tabs) => {
@@ -35,10 +36,24 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             action: 'toggleVietUni',
             enabled: isVietUniEnabled
           }).catch((error) => {
-            // Ignore errors for tabs without content scripts
-            if (error.message.includes('Receiving end does not exist')) {
-              return;
-            }
+            if (error.message.includes('Receiving end does not exist')) return;
+            console.error('Failed to send message to tab', tab.id, error);
+          });
+        });
+      });
+    });
+    sendResponse({ success: true });
+  } else if (message.action === 'setTypingMethod') {
+    currentMethod = message.method;
+    chrome.storage.local.set({ currentMethod }, () => {
+      // Broadcast method change to all tabs
+      chrome.tabs.query({}, (tabs) => {
+        tabs.forEach((tab) => {
+          chrome.tabs.sendMessage(tab.id, {
+            action: 'setTypingMethod',
+            method: currentMethod
+          }).catch((error) => {
+            if (error.message.includes('Receiving end does not exist')) return;
             console.error('Failed to send message to tab', tab.id, error);
           });
         });
@@ -46,6 +61,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
     sendResponse({ success: true });
   } else if (message.action === 'getVietUniState') {
-    sendResponse({ enabled: isVietUniEnabled });
+    sendResponse({ enabled: isVietUniEnabled, method: currentMethod });
   }
 });

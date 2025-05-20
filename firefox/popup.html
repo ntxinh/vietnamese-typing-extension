@@ -1,28 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Vietnamsese Typing Extension</title>
+  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-<div style="width:310px;">
-	<b id="txtSel">Typing Method:</b><br />
-	<input type="radio" name="method" id="auto" /> <label for="auto" id="txtAuto">All (4)</label><br />
-	<input type="radio" name="method" id="telex" /> <label for="telex" id="txtTelex">TELEX (1)</label><br />
-	<input type="radio" name="method" id="vni" /> <label for="vni" id="txtVni">VNI (2)</label><br />
-	<input type="radio" name="method" id="viqr" /> <label for="viqr" id="txtViqr">VIQR (3)</label><br />
-	<input type="radio" name="method" id="off" /> <label for="off" id="txtOff">Off (0)</label><br />
-	<br />
-	<b><small id="txtTips">Small tips:</small></b><br />
-	- <small id="txtTipsCtrl">You can turn on/off by press Ctrl twice.</small>
-	<br />
-	<br />
-	<div>
-		<b id="txtDemo">Fast input:</b><br />
-		<textarea id="inputDemo" style="width:100%; height:200px;" autofocus="autofocus" placeholder="Typing vietnamese here"></textarea>
-		<button id="demoCopy"><span id="txtDemoCopy">Copy</span></button>
-	</div>
-</div>
-	<script src="chrome/popup.js"></script>
-	<!-- <script src="scripts/.js"></script> -->
+  <div class="container">
+    <h2>Vietnamsese Typing Extension</h2>
+    <label for="typingMethod">Typing Method:</label>
+    <select id="typingMethod">
+      <option value="auto">Auto (4)</option>
+      <option value="telex">Telex (1)</option>
+      <option value="vni">VNI (2)</option>
+      <option value="viqr">VIQR (3)</option>
+      <option value="off">Off (0)</option>
+    </select>
+    <button id="toggleButton">Enable</button>
+  </div>
+  <script src="chrome/popup.js"></script>
 </body>
 </html>
