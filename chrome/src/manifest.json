@@ -3,10 +3,23 @@
   "name": "Vietnamese Typing Extension",
   "version": "1.0.0",
   "description": "Enables Vietnamese typing using VietUni library. Toggle with double Ctrl key press.",
+  "action": {
+    "default_icon": "icons/icon16.png",
+    "default_title": "Options for Typing Method",
+    "default_popup": "popup.html"
+  },
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "tabs",
+    "contextMenus"
   ],
+  "default_locale": "en",
+  "offline_enabled": true,
   "content_scripts": [
     {
       "matches": [
@@ -15,7 +28,9 @@
       "js": [
         "scripts/vietuni.min.js",
         "scripts/content.js"
-      ]
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
     }
   ],
   "background": {
