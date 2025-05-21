@@ -5,7 +5,7 @@
 # Support browsers:
 
 - Chrome
-- Firefox (WIP)
+- Firefox (The same source code to Chrome, only different `manifest.json` file)
 
 # Build
 

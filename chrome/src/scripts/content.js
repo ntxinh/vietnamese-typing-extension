@@ -5,7 +5,7 @@ const DOUBLE_PRESS_THRESHOLD = 300; // 300ms for double press
 let vUni = null;
 const initializedElements = new Set();
 
-function convertStringMethodToIntMethod(typingMethod) {
+function convertTypingMethod(typingMethod) {
   switch (typingMethod) {
     case 'off':
       return 0;
@@ -18,7 +18,7 @@ function convertStringMethodToIntMethod(typingMethod) {
     case 'auto':
       return 4;
     default:
-      break;
+      return 0;
   }
 }
 
@@ -27,13 +27,13 @@ function initializeVietUni() {
   if (!vUni) {
     try {
       // vUni.setMethod(int) (0=OFF, 1=TELEX, 2=VNI, 3=VIQR, 4=AUTO).
-      vUni = new vietUni(convertStringMethodToIntMethod(currentMethod)); // Create VietUni instance
+      vUni = new vietUni(convertTypingMethod(currentMethod)); // Create VietUni instance
     } catch (e) {
       console.error('Failed to initialize VietUni:', e);
     }
   } else {
     try {
-      vUni.setMethod(convertStringMethodToIntMethod(currentMethod)); // Update method if VietUni exists
+      vUni.setMethod(convertTypingMethod(currentMethod)); // Update method if VietUni exists
     } catch (e) {
       console.error('Failed to set VietUni method:', e);
     }
@@ -44,7 +44,7 @@ function initializeVietUni() {
 function enableVietUniTyping() {
   initializeVietUni();
   if (!vUni) return; // Skip if VietUni failed to initialize
-  vUni.setMethod(convertStringMethodToIntMethod(currentMethod));
+  vUni.setMethod(convertTypingMethod(currentMethod));
   const elements = document.querySelectorAll('input[type="text"], textarea');
   elements.forEach((element) => {
     if (!initializedElements.has(element)) {
@@ -62,7 +62,7 @@ function enableVietUniTyping() {
 
 // Disable Vietnamese typing
 function disableVietUniTyping() {
-  vUni.setMethod(convertStringMethodToIntMethod('off'));
+  vUni.setMethod(convertTypingMethod('off'));
   // initializedElements.forEach((element) => {
   //   try {
   //     // Assume VietUni has removeTyper; if not, clear by reinitializing
