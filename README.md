@@ -37,5 +37,6 @@ Test:
 
 # References
 
+- Thank to `VietUni` (V.1.618 - R.11.11.01 by Tran Anh Tuan (`tuan.tran@avys.de`))
 - https://www.codeproject.com/Articles/30204/Fastest-Smallest-Vietnamese-JavaScript-Input-Edito?PageFlow=Fluid
 - https://www.codeproject.com/Articles/30204/VietUni2/vietuni_js_1.7_src.zip
