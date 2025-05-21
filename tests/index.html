@@ -6,11 +6,23 @@
 <br>
 <br>
 <textarea name="description" rows="10" id="description"></textarea>
+<br>
+<br>
+<br>
+<div contenteditable="true">lorem ip sum dolar sit amet </div>
 
 <script type="text/javascript">
 var vUni = new vietUni();
 // To enable VN-typing for textbox 'full_name' & textarea 'description'
-vUni.initTyper(document.getElementById("full_name"));
-vUni.initTyper(document.getElementById("description"));
+// vUni.initTyper(document.getElementById("full_name"));
+// vUni.initTyper(document.getElementById("description"));
+const elements = document.querySelectorAll('input[type="text"], textarea, [contenteditable="true"]');
+elements.forEach((element) => {
+  try {
+    vUni.initTyper(element);
+  } catch (e) {
+    console.error('Failed to initialize typer for element:', e);
+  }
+});
 // All of inputs else (ex: textbox 'email') are not registered VN-typing
 </script>

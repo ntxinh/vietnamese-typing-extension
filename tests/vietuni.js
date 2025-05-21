@@ -1,3 +1,9 @@
+/*
+ * Author: ntxinh (nguyentrucxjnh@gmail.com)
+ * Date: May 21, 2025
+ * Description: Add support Vietnamese typing for contenteditable div
+ */
+
 /**
  * Initializes a new instance of the VietUni class.
  *
@@ -165,7 +171,7 @@ vietUni.prototype.getCurrentWord = function(el) {
     return el.value.substr(p1, p2 - p1);
   }
   // for Firefox / Opera iframe.document
-  else if (window.getSelection) {
+  else if (window.getSelection && el.defaultView) {
     var sel = el.defaultView.getSelection();
     var rng = sel.getRangeAt(sel.rangeCount - 1).cloneRange();
 
@@ -191,6 +197,9 @@ vietUni.prototype.getCurrentWord = function(el) {
   }
   else if (typeof el.value !== "undefined") {
     return el.value;
+  }
+  else if (el && el.tagName == 'DIV' && el.getAttribute('contenteditable')) {
+    return el.textContent;
   }
 
   return null;
@@ -222,6 +231,17 @@ vietUni.prototype.replaceWord = function(el, newWord) {
   }
   else if (typeof el.value !== "undefined") {
     el.value = newWord;
+  }
+  else if (el && el.tagName == 'DIV' && el.getAttribute('contenteditable')) {
+    el.textContent = newWord;
+
+    el.focus();
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.selectNodeContents(el);
+    range.collapse(false); // false moves the cursor to the end
+    selection.removeAllRanges();
+    selection.addRange(range);
   }
 };
 

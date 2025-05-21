@@ -9,6 +9,13 @@
 
 # Build
 
+# Minify
+
+```sh
+npm install -g terser
+terser vietuni.js -o vietuni.min.js
+```
+
 # Testing in Chrome (dev env)
 
 Load Extension:

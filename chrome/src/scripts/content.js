@@ -45,7 +45,7 @@ function enableVietUniTyping() {
   initializeVietUni();
   if (!vUni) return; // Skip if VietUni failed to initialize
   vUni.setMethod(convertTypingMethod(currentMethod));
-  const elements = document.querySelectorAll('input[type="text"], textarea');
+  const elements = document.querySelectorAll('input[type="text"], textarea, [contenteditable="true"]');
   elements.forEach((element) => {
     if (!initializedElements.has(element)) {
       try {
