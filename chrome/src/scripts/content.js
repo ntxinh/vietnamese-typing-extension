@@ -106,7 +106,7 @@ document.addEventListener('keydown', (event) => {
     const now = Date.now();
     if (now - lastCtrlPress < DOUBLE_PRESS_THRESHOLD) {
       // Double Ctrl press detected, toggle state
-      chrome.runtime.sendMessage({ action: 'toggleVietUni' }).catch((error) => {
+      chrome.runtime?.sendMessage({ action: 'toggleVietUni' }).catch((error) => {
         console.error('Failed to send toggle message:', error);
       });
       lastCtrlPress = 0; // Reset to prevent multiple toggles
@@ -118,7 +118,7 @@ document.addEventListener('keydown', (event) => {
 
 // Initialize on page load with error handling
 window.addEventListener('load', () => {
-  chrome.runtime.sendMessage({ action: 'getVietUniState' }, (response) => {
+  chrome.runtime?.sendMessage({ action: 'getVietUniState' }, (response) => {
     if (chrome.runtime.lastError) {
       console.error('Failed to get VietUni state:', chrome.runtime.lastError);
       return;

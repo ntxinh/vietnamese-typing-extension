@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Vietnamese Typing Extension",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Enables Vietnamese typing using VietUni library. Toggle with double Ctrl key press.",
   "action": {
     "default_icon": "icons/icon16.png",
@@ -18,7 +18,7 @@
   "default_locale": "en",
   "browser_specific_settings": {
     "gecko": {
-      "id": "599c4464-8a1a-4134-90c5-a4a5abbd3977@vietnamese-typing-chrome.firefox",
+      "id": "599c4464-8a1a-4134-90c5-a4a5abbd3977@ntxinh.github.io",
       "strict_min_version": "109.0"
     }
   },
