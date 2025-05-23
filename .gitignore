@@ -1,5 +1,7 @@
 build
 dist
 node_modules
+firefox/dist
+chrome/dist
 firefox
 !firefox/src/manifest.json

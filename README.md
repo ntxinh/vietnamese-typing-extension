@@ -9,11 +9,18 @@
 
 # Build
 
+- Chrome:
+
+```sh
+mkdir -p ./chrome/dist && cd ./chrome/src && zip -r ../dist/vietnamese-typing-extension.xpi ./* && cd ../../
+zip -sf ./chrome/dist/vietnamese-typing-extension.xpi
+```
+
 - Firefox:
 
 ```sh
-cd firefox/src
-zip -r vietnamese-typing-extension.xpi ./*
+mkdir -p ./firefox/dist && cd ./firefox/src && zip -r ../dist/vietnamese-typing-extension.xpi ./* && cd ../../
+zip -sf ./firefox/dist/vietnamese-typing-extension.xpi
 ```
 
 # Minify
