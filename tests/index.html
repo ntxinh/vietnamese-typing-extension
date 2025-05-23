@@ -1,7 +1,7 @@
 
 <script type="text/javascript" src="vietuni.js"></script>
 
-<input type="text" id="full_name">
+<input type="text" id="full_name" value="lorem ip sum">
 <br>
 <br>
 <br>
@@ -9,14 +9,20 @@
 <br>
 <br>
 <br>
-<div contenteditable="true">lorem ip sum dolar sit amet </div>
+<div contenteditable="true">lorem ip sum</div>
+
+<blockquote contenteditable="true">
+  <p>Edit this content to add your own quote</p>
+</blockquote>
+
+<cite contenteditable="true">-- Write your own name here</cite>
 
 <script type="text/javascript">
 var vUni = new vietUni();
 // To enable VN-typing for textbox 'full_name' & textarea 'description'
 // vUni.initTyper(document.getElementById("full_name"));
 // vUni.initTyper(document.getElementById("description"));
-const elements = document.querySelectorAll('input[type="text"], textarea, [contenteditable="true"]');
+const elements = document.querySelectorAll('input[type="text"], textarea, [contenteditable="true"], [contenteditable="plaintext-only"]');
 elements.forEach((element) => {
   try {
     vUni.initTyper(element);

@@ -1,7 +1,7 @@
 /*
  * Author: ntxinh (nguyentrucxjnh@gmail.com)
  * Date: May 21, 2025
- * Description: Add support Vietnamese typing for contenteditable div
+ * Description: Add support Vietnamese typing for contenteditable attribute
  */
 
 /**
@@ -198,8 +198,41 @@ vietUni.prototype.getCurrentWord = function(el) {
   else if (typeof el.value !== "undefined") {
     return el.value;
   }
-  else if (el && el.tagName == 'DIV' && el.getAttribute('contenteditable')) {
-    return el.textContent;
+  else if (el && el.getAttribute('contenteditable')) {
+    // Get the current selection
+    const selection = window.getSelection();
+
+    // Check if the selection is within the provided element
+    if (!el.contains(selection.anchorNode)) {
+        return null;
+    }
+
+    // Get the range of the selection
+    const range = selection.getRangeAt(0);
+
+    // Check if the selection is collapsed (no text selected, just a cursor)
+    if (!range.collapsed) {
+        return null;
+    }
+
+    // Get the cursor position
+    const tempRange = document.createRange();
+    tempRange.selectNodeContents(el);
+    tempRange.setEnd(range.endContainer, range.endOffset);
+    const p2 = tempRange.toString().length; // Cursor position (end of selection)
+
+    // Calculate the start position (up to 10 characters before the cursor)
+    const p1 = Math.max(0, p2 - 10);
+
+    // Store positions on the element for reference
+    el.pos1 = p1;
+    el.pos2 = p2;
+
+    // Extract the text from the element
+    const text = el.textContent;
+
+    // Return the substring from p1 to p2
+    return text.substring(p1, p2);
   }
 
   return null;
@@ -232,18 +265,66 @@ vietUni.prototype.replaceWord = function(el, newWord) {
   else if (typeof el.value !== "undefined") {
     el.value = newWord;
   }
-  else if (el && el.tagName == 'DIV' && el.getAttribute('contenteditable')) {
-    el.textContent = newWord;
+  else if (el && el.getAttribute('contenteditable')) {
+    const cursorPosition = getCursorPosition(el);
 
-    el.focus();
-    const range = document.createRange();
-    const selection = window.getSelection();
-    range.selectNodeContents(el);
-    range.collapse(false); // false moves the cursor to the end
-    selection.removeAllRanges();
-    selection.addRange(range);
+    var p1 = el.pos1, p2 = el.pos2, txt = el.textContent;
+    el.textContent = txt.substr(0, p1) + newWord + txt.substr(p2);
+
+    if (txt.length == el.pos2) {
+      // If typing at the end of div, move cursor to the end
+      setCursorPositionAtTheEnd(el);
+    } else {
+      // If typing at the start or middle of div, move cursor to the correct position
+      setCursorPosition(el, cursorPosition);
+    }
   }
 };
+
+/*---------- START: Support for contenteditable div ----------*/
+// Get cursor position
+function getCursorPosition(el) {
+  const selection = window.getSelection();
+  if (selection.rangeCount > 0) {
+    const range = selection.getRangeAt(0);
+    if (el.contains(range.startContainer)) {
+      return range.startOffset;
+    }
+  }
+  return -1;
+}
+
+// Set cursor position
+function setCursorPosition(el, offset) {
+  const range = document.createRange();
+  const selection = window.getSelection();
+  const textNode = el.firstChild.nodeType === Node.TEXT_NODE
+    ? el.firstChild
+    : el.childNodes[0];
+
+  if (!textNode || offset < 0 || offset > textNode.length) {
+    console.error('Invalid offset or no text node found');
+    return;
+  }
+
+  range.setStart(textNode, offset);
+  range.collapse(true);
+  selection.removeAllRanges();
+  selection.addRange(range);
+  el.focus();
+}
+
+// Set cursor position at the end
+function setCursorPositionAtTheEnd(el) {
+  el.focus();
+  const range = document.createRange();
+  const selection = window.getSelection();
+  range.selectNodeContents(el);
+  range.collapse(false); // false moves the cursor to the end
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+/*---------- END: Support for contenteditable div ----------*/
 
 /*---------- VietTyper class ----------*/
 function vietTyper() {
