@@ -35,6 +35,9 @@ cd vietuni
 mkdir -p ./firefox/dist && cd ./firefox/src && zip -r ../dist/vietnamese-typing-extension.xpi ./* && cd ../../
 
 zip -sf ./firefox/dist/vietnamese-typing-extension.xpi
+
+# or
+./Makefire
 ```
 
 # References
