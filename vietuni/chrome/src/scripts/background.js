@@ -1,4 +1,4 @@
-console.log('Background script loaded');
+// console.log('Background script loaded');
 
 let isVietUniEnabled = false;
 let currentMethod = 'telex';

@@ -57,7 +57,7 @@ function enableVietUniTyping() {
     }
   });
   isVietUniEnabled = true;
-  console.log(`VietUni typing enabled with method: ${currentMethod}`);
+  // console.log(`VietUni typing enabled with method: ${currentMethod}`);
 }
 
 // Disable Vietnamese typing
@@ -76,7 +76,7 @@ function disableVietUniTyping() {
   // });
   // initializedElements.clear();
   isVietUniEnabled = false;
-  console.log('VietUni typing disabled');
+  // console.log('VietUni typing disabled');
 }
 
 // Listen for messages from background script
@@ -96,7 +96,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       initializeVietUni();
       // enableVietUniTyping();
     }
-    console.log(`Typing method set to: ${currentMethod}`);
+    // console.log(`Typing method set to: ${currentMethod}`);
   }
 });
 

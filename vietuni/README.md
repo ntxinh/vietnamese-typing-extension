@@ -12,6 +12,7 @@
 - Chrome:
 
 ```sh
+cd vietuni
 mkdir -p ./chrome/dist && cd ./chrome/src && zip -r ../dist/vietnamese-typing-extension.xpi ./* && cd ../../
 zip -sf ./chrome/dist/vietnamese-typing-extension.xpi
 ```
@@ -19,7 +20,12 @@ zip -sf ./chrome/dist/vietnamese-typing-extension.xpi
 - Firefox:
 
 ```sh
+cd vietuni
+
+# TODO: Copy all files and folders in chrome/src to frefix/src (exclude the chrome/src/manifest.json)
+
 mkdir -p ./firefox/dist && cd ./firefox/src && zip -r ../dist/vietnamese-typing-extension.xpi ./* && cd ../../
+
 zip -sf ./firefox/dist/vietnamese-typing-extension.xpi
 ```
 
@@ -27,6 +33,7 @@ zip -sf ./firefox/dist/vietnamese-typing-extension.xpi
 
 ```sh
 npm install -g terser
+cd vietuni
 terser tests/vietuni.js -o chrome/src/scripts/vietuni.min.js
 ```
 

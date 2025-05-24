@@ -1,7 +1,9 @@
-build
-dist
-node_modules
-firefox/dist
-chrome/dist
-firefox
-!firefox/src/manifest.json
+**/build
+**/dist
+**/node_modules
+vietuni/firefox/src/_locales
+vietuni/firefox/src/icons
+vietuni/firefox/src/scripts
+vietuni/firefox/src/popup.css
+vietuni/firefox/src/popup.html
+vietuni/firefox/src/content.js
