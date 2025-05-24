@@ -1,5 +1,6 @@
+const browser = chrome || window?.browser;
+
 async function setStorageItem(key, value) {
-  const browser = window.browser || chrome;
   if (!browser.storage || !browser.storage.local) {
     console.error('browser.storage.local is undefined');
     throw new Error('Storage API unavailable');
@@ -16,7 +17,6 @@ async function setStorageItem(key, value) {
 }
 
 async function getStorageItem(key) {
-  const browser = window.browser || chrome;
   if (!browser.storage || !browser.storage.local) {
     console.error('browser.storage.local is undefined');
     throw new Error('Storage API unavailable');
@@ -73,7 +73,6 @@ async function turnAvim() {
 }
 
 async function updateAllTabs(prefs) {
-  const browser = window.browser || chrome;
   try {
     const tabs = await browser.tabs.query({});
     for (const tab of tabs) {
@@ -94,7 +93,6 @@ async function updateAllTabs(prefs) {
 }
 
 async function updateIcon(prefs) {
-  const browser = window.browser || chrome;
   try {
     const txt = { text: prefs.onOff == 1 ? "on" : "off" };
     const bg = { color: prefs.onOff == 1 ? [0, 255, 0, 255] : [255, 0, 0, 255] };
@@ -162,11 +160,10 @@ function processRequest(request, sender, sendResponse) {
 }
 
 function genericOnClick(info, tab) {
-  console.log('AVIM Demo clicked:', info, tab);
+  // console.log('AVIM Demo clicked:', info, tab);
 }
 
 function createMenus() {
-  const browser = window.browser || chrome;
   if (!browser.contextMenus) {
     console.warn('browser.contextMenus is undefined; skipping menu creation');
     return;
@@ -186,7 +183,7 @@ function createMenus() {
 
 async function init() {
   try {
-    console.log('Initializing background script');
+    // console.log('Initializing background script');
     const prefs = await getPrefs();
     const defaults = { method: 0, onOff: 1, ckSpell: 1, oldAccent: 1 };
 
@@ -197,7 +194,6 @@ async function init() {
 
     await updateIcon(prefs);
 
-    const browser = window.browser || chrome;
     if (browser.contextMenus && browser.contextMenus.onClicked) {
       browser.contextMenus.onClicked.addListener((info, tab) => {
         if (info.menuItemId === "avim-demo") {
@@ -214,9 +210,8 @@ async function init() {
   }
 }
 
-const browser = window.browser || chrome;
 browser.runtime.onMessage.addListener(processRequest);
 browser.runtime.onInstalled.addListener(() => {
-  console.log('Extension installed or updated');
+  // console.log('Extension installed or updated');
   init();
 });

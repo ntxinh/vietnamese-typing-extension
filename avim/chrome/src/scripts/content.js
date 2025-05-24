@@ -1,7 +1,7 @@
-var extension = (window.browser || chrome).runtime;
-var document = window.document;
+const browser = chrome || window?.browser;
+var extension = (chrome || window?.browser).runtime;
+var document = window?.document;
 var sendRequest = function (message, callback) {
-  const browser = window.browser || chrome;
   browser.runtime.sendMessage(message, (response) => {
     if (browser.runtime.lastError) {
       console.error('Error sending message:', browser.runtime.lastError.message);
@@ -59,8 +59,8 @@ function findFrame() {
     if (typeof AVIMObj.frame != 'undefined') {
       try {
         if (
-          AVIMObj.frame.contentWindow.document &&
-          AVIMObj.frame.contentWindow.event
+          AVIMObj.frame.contentWindow?.document &&
+          AVIMObj.frame.contentWindow?.event
         ) {
           return AVIMObj.frame.contentWindow;
         }
@@ -137,12 +137,12 @@ function _keyDownHandler(evt) {
 
 function keyUpHandler(evt) {
   _keyUpHandler(evt);
-  console.log('keyUpHandler');
+  // console.log('keyUpHandler');
 }
 
 function keyDownHandler(evt) {
   _keyDownHandler(evt);
-  console.log('keyDownHandler');
+  // console.log('keyDownHandler');
 }
 
 function keyPressHandler(evt) {
@@ -150,7 +150,7 @@ function keyPressHandler(evt) {
   if (success === false) {
     evt.preventDefault();
   }
-  console.log('keyPressHandler');
+  // console.log('keyPressHandler');
 }
 
 function attachEvt(obj, evt, handle, capture) {
@@ -220,7 +220,6 @@ function configAVIM(data) {
 
 sendRequest({ get_prefs: 'all' }, configAVIM);
 
-const browser = window.browser || chrome;
 browser.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   configAVIM(request);
 });

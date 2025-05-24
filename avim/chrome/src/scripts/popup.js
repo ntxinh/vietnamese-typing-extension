@@ -1,5 +1,6 @@
+const browser = chrome || window?.browser;
+
 function setAVIMConfig(key, value) {
-  const browser = window.browser || chrome;
   var obj = {'save_prefs': 'all'};
   if (key == 'method') {
     obj = {'save_prefs': 'all', 'method': value, 'onOff': 1};
@@ -16,12 +17,11 @@ function setAVIMConfig(key, value) {
       console.error('Error saving config:', response.error);
       return;
     }
-    window.location.reload();
+    window?.location.reload();
   });
 }
 
 function getI18n(message) {
-  const browser = window.browser || chrome;
   return browser.i18n.getMessage(message);
 }
 
@@ -54,7 +54,6 @@ function init() {
   var viqrEle = $g("viqr");
   var viqrStarEle = $g("viqrStar");
 
-  const browser = window.browser || chrome;
   browser.runtime.sendMessage({'get_prefs': 'all'}, (response) => {
     if (browser.runtime.lastError) {
       console.error('Error getting prefs:', browser.runtime.lastError.message);
