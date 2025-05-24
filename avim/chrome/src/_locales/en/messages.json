@@ -1,0 +1,61 @@
+{
+	"extName" : {
+		"message" : "Vietnamese Input Method",
+		"description" : "Extension name"
+	},
+	"extDescription" : {
+		"message" : "An input method editor (IME) for Vietnamese, best choice for Chrome.",
+		"description" : "Extension description"
+	},
+	"extAction" : {
+		"message" : "Options for Vietnamese Input Method",
+		"description" : "Default title of browser action"
+	},
+	"extPopupSel" : {
+		"message" : "Select an options:",
+		"description" : ""
+	},
+	"extPopupAuto" : {
+		"message" : "Both Telex and VNI",
+		"description" : ""
+	},
+	"extPopupTelex" : {
+		"message" : "Telex only",
+		"description" : ""
+	},
+	"extPopupVni" : {
+		"message" : "VNI only",
+		"description" : ""
+	},
+	"extPopupViqr" : {
+		"message" : "VIQR only",
+		"description" : ""
+	},
+	"extPopupViqrStar" : {
+		"message" : "VIQR* only",
+		"description" : ""
+	},
+	"extPopupOff" : {
+		"message" : "Turn off extension",
+		"description" : ""
+	},
+	"extPopupTips" : {
+		"message" : "Small tips:",
+		"description" : ""
+	},
+	"extPopupTipsCtrl" : {
+		"message" : "You can turn on/off extension by press Ctrl twice.",
+		"description" : ""
+	},
+	"extPopupDemo" : {
+		"message" : "Fast input",
+		"description" : ""
+	},
+	"extPopupDemoCopy" : {
+		"message" : "Highlight All",
+		"description" : ""
+	},
+  "extPopupDemoPlaceholder": {
+    "message": "Type Vietnamese quickly here"
+  }
+}
