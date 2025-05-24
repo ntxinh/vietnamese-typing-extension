@@ -15,11 +15,20 @@ cd src
 terser ./scripts/avim.js -o ./scripts/avim.min.js
 ```
 
-# Build
+# Build to zip file
 
 ```sh
 ./Makefile
 ```
+
+# Build to crx file
+
+- Unzip the file from previous step
+- Go to `chrome://extensions/`
+- Click `Package extension`
+- `Extension root directory`: select the unzip directory 
+- `Private key file (optional)`: blank
+- Click `Package extension`
 
 # References
 
